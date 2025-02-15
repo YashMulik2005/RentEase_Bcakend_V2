@@ -32,5 +32,5 @@ app.use("/api/auth", AuthRoutes);
 
 app.listen(3000, () => {
   console.log("server started");
-  console.log(process.env.jwt_key);
+  // console.log(process.env.jwt_key);
 });
