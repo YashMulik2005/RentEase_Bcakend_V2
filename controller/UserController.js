@@ -4,43 +4,45 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const generateToken = (id) => jwt.sign({ id }, process.env.jwt_key);
-
-exports.signup = async (req, res) => {
-  const { username, email, password } = req.body;
-  if (!username || !email || !password)
-    return res.status(400).json({ message: "All fields are required" });
-
+// User Signup
+const signup = async (req, res) => {
   try {
-    if (await User.findOne({ email }))
-      return res.status(400).json({ message: "Email already registered" });
+    const { username, email, password } = req.body;
 
-    if (await User.findOne({ username }))
-      return res.status(400).json({ message: "Username already taken" });
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
 
-    const user = await User.create({ username, email, password });
-    const token = generateToken(user._id);
+    // Create new user
+    const newUser = new User({ username, email, password });
+    await newUser.save();
 
-    res.status(201).json({ message: "Signup successful", token });
+    res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password)
-    return res.status(400).json({ message: "Email and password are required" });
-
+// User Login
+const login = async (req, res) => {
   try {
-    const user = await User.findOne({ email });
-    if (!user || user.password != password)
-      return res.status(401).json({ message: "Invalid email or password" });
+    const { email, password } = req.body;
 
-    const token = generateToken(user._id);
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user || user.password !== password) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // Generate token
+    const token = jwt.sign({ userId: user._id }, process.env.jwt_key);
 
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({ message: "Server error", error });
   }
 };
+
+module.exports = { signup, login };
