@@ -1,11 +1,14 @@
-const Rooms = require('../models/Rooms');
+const Rooms = require("../model/Rooms");
 
-exports.createRoom = async (req, res) => {
+const createRoom = async (req, res) => {
   try {
-    const { room_type, price, capacity, availability_status, images } = req.body;
+    const { room_type, price, capacity, availability_status, images } =
+      req.body;
 
     if (!req.user || !req.user.id) {
-      return res.status(401).json({ message: 'Not authorized, owner not found' });
+      return res
+        .status(401)
+        .json({ message: "Not authorized, owner not found" });
     }
 
     const room = new Rooms({
@@ -14,23 +17,25 @@ exports.createRoom = async (req, res) => {
       price,
       capacity,
       availability_status,
-      images
+      images,
     });
 
     await room.save();
     res.status(201).json(room);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).send("Server error");
   }
 };
 
-exports.getRooms = async (req, res) => {
+const getRooms = async (req, res) => {
   try {
-    const rooms = await Rooms.find().populate('owner_id', 'name email');
+    const rooms = await Rooms.find().populate("owner_id", "name email");
     res.json(rooms);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).send("Server error");
   }
 };
+
+module.exports = { createRoom, getRooms };
