@@ -10,4 +10,4 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser }; // Ensure the correct export
+module.exports = { getUser };
