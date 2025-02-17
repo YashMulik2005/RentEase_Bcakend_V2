@@ -20,6 +20,7 @@ const roomsSchema = new Schema({
     required: true,
   },
   images: { type: [String], required: true },
+  titleImage: { type: String, required: true },
   created_at: { type: Date, default: Date.now },
   options: [
     {
