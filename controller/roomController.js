@@ -137,32 +137,14 @@ const getRoomsByLocation = async (req, res) => {
 
 const getRandomRooms = async (req, res) => {
   try {
-    const rooms = await Rooms.aggregate([
-      { $sample: { size: 5 } },
-      {
-        $lookup: {
-          from: "users",
-          localField: "owner_id",
-          foreignField: "_id",
-          as: "owner",
-        },
-      },
-      { $unwind: "$owner" },
-      {
-        $project: {
-          price: 1,
-          description: 1,
-          titleImage: 1,
-          "owner._id": 1,
-          "owner.name": 1,
-          "owner.email": 1,
-        },
-      },
-    ]);
+    const rooms = await Rooms.find({}, "price description titleImage owner_id")
+      .populate("owner_id", "hotelName apartment city state")
+      .limit(5)
+      .exec();
 
     res.json(rooms);
   } catch (err) {
-    console.error(err.message);
+    console.error("Error fetching rooms:", err.message);
     res.status(500).send("Server error");
   }
 };
