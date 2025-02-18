@@ -137,9 +137,11 @@ const getRoomsByLocation = async (req, res) => {
 
 const getRandomRooms = async (req, res) => {
   try {
-    const rooms = await Rooms({}, "price description titleImage").aggregate([
+    const rooms = await Rooms.aggregate([
       { $sample: { size: 5 } },
+      { $project: { price: 1, description: 1, titleImage: 1 } },
     ]);
+
     res.json(rooms);
   } catch (err) {
     console.error(err.message);
