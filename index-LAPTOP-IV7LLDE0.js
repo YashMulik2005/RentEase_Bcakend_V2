@@ -3,6 +3,11 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const AuthRoutes = require("./route/AuthRoutes");
+const BookingRoutes = require("./route/bookingRoutes");
+const userRoutes = require("./route/getuserRoutes");
+const paymentRoutes = require("./route/paymentRoutes");
+const reviewRoutes = require("./route/reviewRoutes");
+const roomRoutes = require("./route/roomRoutes");
 
 const app = express();
 app.use(
@@ -32,7 +37,13 @@ mongoose
   });
 
 app.use("/api/auth", AuthRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/booking", BookingRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/review", reviewRoutes);
+app.use("/api/room", roomRoutes);
 
 app.listen(3000, () => {
   console.log("server started");
+  console.log(" n n t");
 });

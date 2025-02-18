@@ -6,9 +6,35 @@ const ownerSchema = new mongoose.Schema({
     required: [true, "Hotel name is required"],
     trim: true,
   },
-  address: {
+  apartment: {
     type: String,
-    required: [true, "Address is required"],
+    required: [true, "Apartment is required"],
+    trim: true,
+  },
+  streetName: {
+    type: String,
+    required: [true, "Street name is required"],
+    trim: true,
+  },
+  city: {
+    type: String,
+    required: [true, "City is required"],
+    trim: true,
+  },
+  state: {
+    type: String,
+    required: [true, "State is required"],
+    trim: true,
+  },
+  postalCode: {
+    type: String,
+    required: [true, "Postal code is required"],
+    trim: true,
+  },
+  country: {
+    type: String,
+    required: [true, "Country is required"],
+    trim: true,
   },
   mobileNo: {
     type: String,

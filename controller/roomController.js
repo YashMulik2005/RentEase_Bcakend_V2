@@ -139,7 +139,25 @@ const getRandomRooms = async (req, res) => {
   try {
     const rooms = await Rooms.aggregate([
       { $sample: { size: 5 } },
-      { $project: { price: 1, description: 1, titleImage: 1 } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "owner_id",
+          foreignField: "_id",
+          as: "owner",
+        },
+      },
+      { $unwind: "$owner" },
+      {
+        $project: {
+          price: 1,
+          description: 1,
+          titleImage: 1,
+          "owner._id": 1,
+          "owner.name": 1,
+          "owner.email": 1,
+        },
+      },
     ]);
 
     res.json(rooms);
