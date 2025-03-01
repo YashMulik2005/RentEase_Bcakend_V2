@@ -48,6 +48,7 @@ const getBookings = async (req, res) => {
       .populate("user_id", "name email")
       .populate({
         path: "room_id",
+        model: "Rooms",
         select: "hotel_name owner_id",
         populate: {
           path: "owner_id",
@@ -72,7 +73,7 @@ const getRoomBookingDates = async (req, res) => {
 
     if (!bookings || bookings.length === 0) {
       return res
-        .status(404)
+        .status(200)
         .json({ message: "No bookings found for this room." });
     }
 

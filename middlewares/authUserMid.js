@@ -14,7 +14,7 @@ const authUserMid = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.jwt_key);
-    console.log(decoded);
+    console.log(process.env.jwt_key);
     req.user = await User.findById(decoded.userId);
     if (!req.user) {
       return res.status(401).json({ message: "User not found" });
