@@ -8,6 +8,7 @@ const createBooking = async (req, res) => {
     check_out_date,
     total_guests,
     guest_details,
+    amount,
   } = req.body;
 
   if (
@@ -15,7 +16,8 @@ const createBooking = async (req, res) => {
     !check_in_date ||
     !check_out_date ||
     !total_guests ||
-    !guest_details
+    !guest_details ||
+    !amount
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -28,6 +30,7 @@ const createBooking = async (req, res) => {
       check_out_date,
       total_guests,
       guest_details,
+      amount,
     });
 
     await booking.save();
