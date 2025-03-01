@@ -1,5 +1,6 @@
 const BookingDetails = require("../model/BookingDetails");
 const moment = require("moment");
+const generatePDF = require("../utils/PdfGenerator");
 
 const createBooking = async (req, res) => {
   const {
@@ -94,4 +95,29 @@ const getRoomBookingDates = async (req, res) => {
       .json({ message: "An error occurred while retrieving booking details." });
   }
 };
-module.exports = { createBooking, getBookings, getRoomBookingDates };
+
+const generateRecipt = async (req, res) => {
+  try {
+    // Simulating fetching data from DB
+    const userData = {
+      name: "John Doe",
+      email: "john@example.com",
+      phone: "1234567890",
+      address: "123 Street, City, Country",
+    };
+
+    const pdfBuffer = await generatePDF(userData);
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", 'attachment; filename="user.pdf"');
+    res.send(pdfBuffer);
+  } catch (error) {
+    res.status(500).json({ error: "Error generating PDF" });
+  }
+};
+module.exports = {
+  createBooking,
+  getBookings,
+  getRoomBookingDates,
+  generateRecipt,
+};
