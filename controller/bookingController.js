@@ -45,12 +45,20 @@ const getBookings = async (req, res) => {
   try {
     const bookings = await BookingDetails.find({ user_id: req.user._id })
       .populate("user_id", "name email")
-      .populate("room_id", "hotel_name address");
+      .populate({
+        path: "room_id",
+        select: "hotel_name owner_id",
+        populate: {
+          path: "owner_id",
+          model: "Owner",
+          select:
+            "hotelName apartment streetName city state postalCode country",
+        },
+      });
 
     res.json(bookings);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
