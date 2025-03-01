@@ -49,7 +49,7 @@ const getBookings = async (req, res) => {
       .populate({
         path: "room_id",
         model: "Rooms",
-        select: "hotel_name owner_id",
+        select: "hotel_name titleImage owner_id",
         populate: {
           path: "owner_id",
           model: "Owner",
