@@ -98,8 +98,9 @@ const getRoomBookingDates = async (req, res) => {
 };
 
 const generateRecipt = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
   try {
-    // Simulating fetching data from DB
     const userData = {
       name: "John Doe",
       email: "john@example.com",

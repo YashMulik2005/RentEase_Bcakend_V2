@@ -12,6 +12,6 @@ const router = express.Router();
 router.post("/", authUserMid, createBooking);
 router.get("/", authUserMid, getBookings);
 router.get("/room/:roomId", getRoomBookingDates);
-router.get("/receipt", generateRecipt);
+router.get("/receipt/:id", generateRecipt);
 
 module.exports = router;
