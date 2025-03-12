@@ -17,6 +17,7 @@ const bookingDetailsSchema = new Schema({
   total_guests: { type: Number, required: true },
   guest_details: { type: Schema.Types.Mixed, required: true },
   amount: { type: Number, required: true },
+  pdf: { type: String, default: null },
   created_at: { type: Date, default: Date.now },
 });
 
