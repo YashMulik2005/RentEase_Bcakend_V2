@@ -77,7 +77,7 @@ const generateRecipt = async (req, res) => {
           <table>
             <tr><th>Booking ID</th><td>${booking._id}</td></tr>
             <tr><th>Hotel</th><td>${booking.room_id.owner_id.hotelName}, ${
-      booking.room_id.apartment
+      booking?.room_id?.owner_id?.apartment
     }</td></tr>
             <tr><th>Address</th><td>
               ${booking.room_id.owner_id.streetName}, ${
