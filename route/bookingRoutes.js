@@ -14,6 +14,6 @@ router.post("/", authUserMid, createBooking);
 router.get("/", authUserMid, getBookings);
 router.get("/room/:roomId", getRoomBookingDates);
 router.post("/receipt", generateRecipt);
-router.get("/hotel", authUserMid, getBookingHotel);
+router.get("/hotel", authOwnerMid, getBookingHotel);
 
 module.exports = router;
