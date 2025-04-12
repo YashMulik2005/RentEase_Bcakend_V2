@@ -156,9 +156,12 @@ const getBookingHotel = async (req, res) => {
         },
       });
 
+    // console.log("Owner id" + req.user._id);
+    // console.log("bookings", bookings[0]?.room_id?.owner_id?._id);
+
     const filteredBookings = bookings.filter(
       (booking) =>
-        booking?.room_id?.owner_id?.toString() === req.user._id.toString()
+        booking?.room_id?.owner_id?._id.toString() === req.user._id.toString()
     );
 
     res
