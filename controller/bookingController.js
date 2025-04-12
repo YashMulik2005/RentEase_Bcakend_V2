@@ -140,6 +140,38 @@ const getBookings = async (req, res) => {
   }
 };
 
+const getBookingHotel = async (req, res) => {
+  try {
+    const bookings = await BookingDetails.find()
+      .populate("user_id", "name email")
+      .populate({
+        path: "room_id",
+        model: "Rooms",
+        select: "hotel_name titleImage owner_id",
+        populate: {
+          path: "owner_id",
+          model: "Owner",
+          select:
+            "hotelName apartment streetName city state postalCode country",
+        },
+      });
+
+    const filteredBookings = bookings.filter(
+      (booking) =>
+        booking?.room_id?.owner_id?.toString() === req.user._id.toString()
+    );
+
+    res
+      .status(200)
+      .json({ message: "Booking data fetched successfully", filteredBookings });
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while retrieving booking details." });
+  }
+};
+
 const getRoomBookingDates = async (req, res) => {
   try {
     const roomId = req.params.roomId;
@@ -199,4 +231,5 @@ module.exports = {
   getBookings,
   getRoomBookingDates,
   generateRecipt,
+  getBookingHotel,
 };

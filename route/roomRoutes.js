@@ -7,10 +7,10 @@ const {
   searchRooms,
   getRoomById,
 } = require("../controller/roomController");
-const protect = require("../middlewares/authUserMid");
+const { authUserMid, authOwnerMid } = require("../middlewares/authUserMid");
 const router = express.Router();
 
-router.post("/", protect, createRoom);
+router.post("/", authUserMid, createRoom);
 router.get("/", getRooms);
 router.get("/location/:city/:state", getRoomsByLocation);
 router.get("/random", getRandomRooms);

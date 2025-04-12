@@ -3,10 +3,10 @@ const {
   createPayment,
   getPayments,
 } = require("../controller/paymentController");
-const protect = require("../middlewares/authUserMid");
+const { authUserMid, authOwnerMid } = require("../middlewares/authUserMid");
 const router = express.Router();
 
-router.post("/", protect, createPayment);
-router.get("/", protect, getPayments);
+router.post("/", authUserMid, createPayment);
+router.get("/", authUserMid, getPayments);
 
 module.exports = router;

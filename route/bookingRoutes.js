@@ -4,8 +4,9 @@ const {
   getBookings,
   getRoomBookingDates,
   generateRecipt,
+  getBookingHotel,
 } = require("../controller/bookingController");
-const authUserMid = require("../middlewares/authUserMid");
+const { authUserMid, authOwnerMid } = require("../middlewares/authUserMid");
 
 const router = express.Router();
 
@@ -13,5 +14,6 @@ router.post("/", authUserMid, createBooking);
 router.get("/", authUserMid, getBookings);
 router.get("/room/:roomId", getRoomBookingDates);
 router.post("/receipt", generateRecipt);
+router.get("/hotel", authUserMid, getBookingHotel);
 
 module.exports = router;
