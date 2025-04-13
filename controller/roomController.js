@@ -204,9 +204,10 @@ const getRoomById = async (req, res) => {
 
 const getRoomOfOwner = async (req, res) => {
   try {
-    const room = await Rooms.find({ owner_id: req.user._id }).populate(
-      "owner_id"
-    );
+    const room = await Rooms.find({ owner_id: req.user._id })
+      .populate("owner_id")
+      .sort({ created_at: -1 });
+
     return res.status(200).json({
       status: true,
       data: room,
