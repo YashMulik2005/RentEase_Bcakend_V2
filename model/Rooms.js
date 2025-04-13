@@ -25,7 +25,7 @@ const roomsSchema = new Schema({
   options: [
     {
       name: { type: String, required: true },
-      value: { type: String, required: true },
+      value: { type: String },
       extraCost: { type: mongoose.Types.Decimal128, default: 0.0 },
     },
   ],
