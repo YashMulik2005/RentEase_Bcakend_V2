@@ -203,6 +203,21 @@ const getRoomById = async (req, res) => {
   }
 };
 
+const getRoomOfOwner = async (req, res) => {
+  try {
+    const room = await Rooms.find({ owner_id: req.user._id }).populate(
+      "owner_id"
+    );
+    return res.status(200).json({
+      status: true,
+      data: room,
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
 module.exports = {
   createRoom,
   getRooms,
@@ -210,4 +225,5 @@ module.exports = {
   getRandomRooms,
   searchRooms,
   getRoomById,
+  getRoomOfOwner,
 };
