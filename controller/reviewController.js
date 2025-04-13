@@ -1,4 +1,5 @@
 const Reviews = require("../model/Reviews");
+const Room = require("../model/Rooms");
 
 const createReview = async (req, res) => {
   try {
@@ -27,14 +28,27 @@ const createReview = async (req, res) => {
 
 const getReviews = async (req, res) => {
   try {
-    const reviews = await Reviews.find()
-      .populate("user_id", "name email")
-      .populate("room_id", "room_name location");
+    const { id } = req.params;
 
-    res.json(reviews);
+    if (!id) {
+      return res.status(400).json({ message: "Room ID is required." });
+    }
+
+    const reviews = await Reviews.find({ room_id: id }).populate(
+      "user_id",
+      "username email"
+    );
+
+    return res.status(200).json({
+      status: true,
+      data: reviews,
+    });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    console.error("Error fetching reviews:", err.message);
+    res.status(500).json({
+      status: false,
+      message: "Server error while fetching reviews.",
+    });
   }
 };
 

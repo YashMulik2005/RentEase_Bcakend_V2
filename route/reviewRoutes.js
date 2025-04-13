@@ -4,6 +4,6 @@ const { authUserMid, authOwnerMid } = require("../middlewares/authUserMid");
 const router = express.Router();
 
 router.post("/", authUserMid, createReview);
-router.get("/", getReviews);
+router.get("/:id", getReviews);
 
 module.exports = router;
