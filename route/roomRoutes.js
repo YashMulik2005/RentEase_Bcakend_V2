@@ -11,7 +11,7 @@ const {
 const { authUserMid, authOwnerMid } = require("../middlewares/authUserMid");
 const router = express.Router();
 
-router.post("/", authUserMid, createRoom);
+router.post("/", authOwnerMid, createRoom);
 router.get("/", getRooms);
 router.get("/location/:city/:state", getRoomsByLocation);
 router.get("/random", getRandomRooms);
