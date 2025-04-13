@@ -36,7 +36,8 @@ const getReviews = async (req, res) => {
 
     const reviews = await Reviews.find({ room_id: id })
       .populate("user_id", "username email")
-      .limit(5); // get any 5 reviews (no sorting)
+      .sort({ created_at: -1 })
+      .limit(5);
 
     return res.status(200).json({
       status: true,
