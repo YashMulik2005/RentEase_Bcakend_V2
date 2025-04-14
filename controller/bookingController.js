@@ -132,7 +132,8 @@ const getBookings = async (req, res) => {
           select:
             "hotelName apartment streetName city state postalCode country",
         },
-      });
+      })
+      .sort({ created_at: -1 });
 
     res.json(bookings);
   } catch (err) {
@@ -155,7 +156,6 @@ const getBookingHotel = async (req, res) => {
             "hotelName apartment streetName city state postalCode country",
         },
       });
-
 
     const filteredBookings = bookings.filter(
       (booking) =>
